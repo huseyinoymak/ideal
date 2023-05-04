@@ -6,6 +6,7 @@ var L = Sistem.GrafikFiyatSec("Dusuk");
 var H = Sistem.GrafikFiyatSec("Yuksek");
 var O = Sistem.GrafikFiyatSec("Acilis");
 var MA = Sistem.MA(C, "ZeroLag", A);
+var ZMA = Sistem.MA(C, "ZeroLag", B);
 var MAH = Sistem.MA(H, "ZeroLag", A);
 var MAL = Sistem.MA(L, "ZeroLag", A);
 
@@ -17,7 +18,7 @@ for (int i = 100; i < V.Count; i++)
  OMA[i] = ( CMA[i-1] + O[i-1] ) / 2;
  HMA[i] = Math.Max(Math.Max(H[i],OMA[i]),MAH[i]);
  LMA[i] = Math.Min(Math.Min(L[i],OMA[i]),MAL[i]);
- YGT[i] = (OMA[i] + HMA[i] + LMA[i] + MA[i])/4;
+ YGT[i] = (OMA[i] + HMA[i] + LMA[i] + ZMA[i])/4;
  KYN[i] = ( YGT[i-1] + KYN[i-1] ) / 2;
 }
 
