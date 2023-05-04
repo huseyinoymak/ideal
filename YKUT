@@ -1,0 +1,34 @@
+int A = 100;
+int B = 50;
+var V = Sistem.GrafikVerileri;
+var C = Sistem.GrafikFiyatSec("Kapanis");
+var L = Sistem.GrafikFiyatSec("Dusuk");
+var H = Sistem.GrafikFiyatSec("Yuksek");
+var O = Sistem.GrafikFiyatSec("Acilis");
+var MA = Sistem.MA(C, "ZeroLag", A);
+var MAH = Sistem.MA(H, "ZeroLag", A);
+var MAL = Sistem.MA(L, "ZeroLag", A);
+
+var CMA = Sistem.Liste(0); var HMA = Sistem.Liste(0); var LMA = Sistem.Liste(0); var OMA = Sistem.Liste(0);
+var YGT = Sistem.Liste(0); var KYN = Sistem.Liste(0);
+for (int i = 100; i < V.Count; i++)
+{
+ CMA[i] = ( O[i] + H[i] + L[i] + MA[i] ) / 4;
+ OMA[i] = ( CMA[i-1] + O[i-1] ) / 2;
+ HMA[i] = Math.Max(Math.Max(H[i],OMA[i]),MAH[i]);
+ LMA[i] = Math.Min(Math.Min(L[i],OMA[i]),MAL[i]);
+ YGT[i] = (OMA[i] + HMA[i] + LMA[i] + MA[i])/4;
+ KYN[i] = ( YGT[i-1] + KYN[i-1] ) / 2;
+}
+
+Sistem.Cizgiler[0].Deger = YGT;
+Sistem.Cizgiler[0].Panel = 1;
+Sistem.Cizgiler[0].Stil = 1;
+Sistem.Cizgiler[0].Kalinlik = 2;
+Sistem.Cizgiler[0].ActiveBool = true;
+
+Sistem.Cizgiler[1].Deger = KYN;
+Sistem.Cizgiler[1].Panel = 1;
+Sistem.Cizgiler[1].Stil = 1;
+Sistem.Cizgiler[1].Kalinlik = 2;
+Sistem.Cizgiler[1].ActiveBool = true;
