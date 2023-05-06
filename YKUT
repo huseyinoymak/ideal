@@ -6,15 +6,17 @@ var L = Sistem.GrafikFiyatSec("Dusuk");
 var H = Sistem.GrafikFiyatSec("Yuksek");
 var O = Sistem.GrafikFiyatSec("Acilis");
 var MA = Sistem.MA(C, "ZeroLag", A);
-var ZMA = Sistem.MA(C, "ZeroLag", B);
+
 var MAH = Sistem.MA(H, "ZeroLag", A);
 var MAL = Sistem.MA(L, "ZeroLag", A);
 
 var CMA = Sistem.Liste(0); var HMA = Sistem.Liste(0); var LMA = Sistem.Liste(0); var OMA = Sistem.Liste(0);
 var YGT = Sistem.Liste(0); var KYN = Sistem.Liste(0);
+for (int i = 100; i < V.Count; i++) CMA[i] = ( O[i] + H[i] + L[i] + MA[i] ) / 4;
+var ZMA = Sistem.MA(CMA, "ZeroLag", B);
 for (int i = 100; i < V.Count; i++)
 {
- CMA[i] = ( O[i] + H[i] + L[i] + MA[i] ) / 4;
+
  OMA[i] = ( CMA[i-1] + O[i-1] ) / 2;
  HMA[i] = Math.Max(Math.Max(H[i],OMA[i]),MAH[i]);
  LMA[i] = Math.Min(Math.Min(L[i],OMA[i]),MAL[i]);
